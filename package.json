@@ -142,11 +142,6 @@
         "command": "workbench.action.gotoLine"
       },
       {
-        "key": "cmd+f",
-        "command": "editor.action.nextMatchFindAction",
-        "when": "findWidgetVisible"
-      },
-      {
         "key": "ctrl+r",
         "command": "actions.find",
         "when": "!findWidgetVisible"
