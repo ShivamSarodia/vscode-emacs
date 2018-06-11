@@ -3,6 +3,14 @@ import {Operation} from './operation';
 
 var inMarkMode: boolean = false;
 export function activate(context: vscode.ExtensionContext): void {
+    vscode.commands.getCommands().then(commands => {
+        commands.forEach((cmd) => {
+            if (cmd.toLowerCase().includes('copy')) {
+                console.log(cmd);
+            }
+        });
+    });
+
     let op = new Operation(),
         commandList: string[] = [
             "C-g",
@@ -43,7 +51,7 @@ export function activate(context: vscode.ExtensionContext): void {
 		if (!vscode.window.activeTextEditor) {
 			return;
 		}
-		op.onType(args.text);        
+		op.onType(args.text);
     }));
 
     initMarkMode(context);

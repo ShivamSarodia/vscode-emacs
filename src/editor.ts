@@ -31,7 +31,7 @@ export class Editor {
     }
 
     setStatusBarPermanentMessage(text: string): vscode.Disposable {
-        return vscode.window.setStatusBarMessage(text); 
+        return vscode.window.setStatusBarMessage(text);
     }
 
     getSelectionRange(): vscode.Range {
@@ -65,12 +65,12 @@ export class Editor {
             let selection = this.getSelection(),
                 range = new vscode.Range(selection.start, selection.end);
 
-            this.setSelection(range.start, range.start);
-            this.isKillRepeated = saveIsKillRepeated;
+            // this.setSelection(range.start, range.start);
+            // this.isKillRepeated = saveIsKillRepeated;
             if (range.isEmpty) {
-                this.killEndOfLine(saveIsKillRepeated, range);
+                vscode.commands.executeCommand("editor.action.joinLines");
             } else {
-                this.killText(range);
+                vscode.commands.executeCommand("editor.action.clipboardCutAction");
             }
         });
     }
@@ -86,6 +86,8 @@ export class Editor {
         } else {
             this.setStatusBarMessage("End of buffer");
         }
+
+        // TODO: delete all whitespace
         vscode.commands.executeCommand("deleteRight").then(() => {
             this.isKillRepeated = saveIsKillRepeated;
         });
@@ -94,8 +96,7 @@ export class Editor {
     private killText(range: vscode.Range): void {
         let text = vscode.window.activeTextEditor.document.getText(range),
             promises = [
-                Editor.delete(range),
-                vscode.commands.executeCommand("emacs.exitMarkMode")
+
             ];
 
         this.isKillRepeated ? this.killRing += text : this.killRing = text;
@@ -105,27 +106,15 @@ export class Editor {
     }
 
     copy(range: vscode.Range = null): boolean {
-        this.killRing = '';
-        if (range === null) {
-            range = this.getSelectionRange();
-            if (range === null) {
-                vscode.commands.executeCommand("emacs.exitMarkMode");
-                return false;
-            }
-        }
-        this.killRing = vscode.window.activeTextEditor.document.getText(range);
-        vscode.commands.executeCommand("emacs.exitMarkMode");
-        return this.killRing !== undefined;
+        vscode.commands.executeCommand("editor.action.clipboardCopyAction")
+          .then(() => vscode.commands.executeCommand("emacs.exitMarkMode"));
+        return;
     }
 
     cut(): boolean {
-        let range: vscode.Range = this.getSelectionRange();
-
-        if (!this.copy(range)) {
-            return false;
-        }
-        Editor.delete(range);
-        return true;
+        vscode.commands.executeCommand("editor.action.clipboardCutAction")
+          .then(() => vscode.commands.executeCommand("emacs.exitMarkMode"));
+        return;
     }
 
     yank(): boolean {
@@ -202,7 +191,7 @@ export class Editor {
 
     setRMode(): void {
         this.setStatusBarPermanentMessage("C-x r");
-        this.keybindProgressMode = KeybindProgressMode.RMode; 
+        this.keybindProgressMode = KeybindProgressMode.RMode;
         return;
     }
 
@@ -297,7 +286,7 @@ export class Editor {
                 text: text
             });
         }
-        return;    
+        return;
     }
 
     SaveTextToRegister(registerName: string): void {
@@ -313,9 +302,9 @@ export class Editor {
         }
         return;
     }
-    
+
     RestoreTextFromRegister(registerName: string): void {
-        vscode.commands.executeCommand("emacs.exitMarkMode"); // emulate Emacs 
+        vscode.commands.executeCommand("emacs.exitMarkMode"); // emulate Emacs
         let obj : RegisterContent = this.registersStorage[registerName];
         if (null == obj) {
             this.setStatusBarMessage("Register does not contain text.");
@@ -328,7 +317,7 @@ export class Editor {
                     editBuilder.insert(this.getSelection().active, content);
                 });
             }
-        }  
+        }
         return;
     }
 }

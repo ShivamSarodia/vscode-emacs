@@ -142,6 +142,11 @@
         "command": "workbench.action.gotoLine"
       },
       {
+        "key": "cmd+f",
+        "command": "editor.action.nextMatchFindAction",
+        "when": "findWidgetVisible"
+      },
+      {
         "key": "ctrl+r",
         "command": "actions.find",
         "when": "!findWidgetVisible"
@@ -172,13 +177,18 @@
         "when": "editorTextFocus"
       },
       {
+        "key": "cmd+x",
+        "command": "emacs.C-w",
+        "when": "editorTextFocus"
+      },
+      {
         "key": "cmd+c",
         "command": "emacs.M-w",
         "when": "editorTextFocus"
       },
       {
-        "key": "cmd+x",
-        "command": "emacs.C-w",
+        "key": "cmd+v",
+        "command": "emacs.C-y",
         "when": "editorTextFocus"
       },
       {

@@ -1,0 +1,14 @@
+Copy:
+    copy onto clipboard
+    exit mark mode
+
+Cut:
+    cut onto clipboard
+    exit mark mode
+
+Ctrl-K:
+    if mark, same as cut
+    else: cut current line onto keyboard
+
+Paste:
+    no change???
