@@ -1,13 +1,13 @@
 {
   "name": "shivam-vscode-emacs",
-  "displayName": "Emacs Keymap",
+  "displayName": "Shivam's Emacs Keymap",
   "description": "emacs like extension for vscode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "Shivam Sarodia",
-  "homepage": "https://github.com/hiro-sun/vscode-emacs",
+  "homepage": "https://github.com/ShivamSarodia/vscode-emacs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hiro-sun/vscode-emacs.git"
+    "url": "https://github.com/ShivamSarodia/vscode-emacs.git"
   },
   "engines": {
     "vscode": "^1.5.0"
